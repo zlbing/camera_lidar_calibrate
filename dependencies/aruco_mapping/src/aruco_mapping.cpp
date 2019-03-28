@@ -193,6 +193,7 @@ ArucoMapping::imageCallback(const sensor_msgs::ImageConstPtr &original_image)
 bool
 ArucoMapping::processImage(cv::Mat input_image,cv::Mat output_image)
 {
+  std::cout<<"[ArucoMapping::processImage] in"<<std::endl;
   aruco::MarkerDetector Detector;
   std::vector<aruco::Marker> temp_markers;
 

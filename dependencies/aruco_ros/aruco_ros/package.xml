@@ -13,7 +13,9 @@
   <author email="bence.magyar@pal-robotics.com">Bence Magyar</author>
 
   <buildtool_depend>catkin</buildtool_depend>
-
+  <build_depend>velodyne_msgs</build_depend>
+  <build_depend>velodyne_pointcloud</build_depend>
+  
   <depend>cv_bridge</depend>
   <depend>dynamic_reconfigure</depend>
   <depend>geometry_msgs</depend>

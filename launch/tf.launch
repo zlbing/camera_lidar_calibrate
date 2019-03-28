@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<launch>
+  <param name="/use_sim_time" value="true"/>
+  <!--
+<node pkg="tf2_ros" type="static_transform_publisher" respawn="true" name="rslidar_camera_tf" args="0.6 0 1.1 -1.57 0 -1.57 base_link camera_link " />
+
+<node pkg="tf2_ros" type="static_transform_publisher" respawn="true" name="rslidar_baselink_tf" args="0.44 0 1.33 0.01 0.17 0.025  base_link rslidar " />
+-->
+ 
+<node pkg="tf2_ros" type="static_transform_publisher" respawn="true" name="rslidar_camera_tf" args="1 0 0 0 -1.57 1.57 rslidar camera_link" />
+
+</launch>
+

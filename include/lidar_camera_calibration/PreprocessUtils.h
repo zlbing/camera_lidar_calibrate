@@ -139,14 +139,19 @@ pcl::PointCloud<myPointXYZRID> normalizeIntensity(pcl::PointCloud<myPointXYZRID>
 
 pcl::PointCloud<myPointXYZRID> intensityByRangeDiff(pcl::PointCloud<myPointXYZRID> point_cloud, config_settings config)
 {
-
+	std::cout<<"[intensityByRangeDiff] pointcloud size="<<point_cloud.size()<<std::endl;
 	std::vector<std::vector<myPointXYZRID*>> rings(16);
 	
 	for(pcl::PointCloud<myPointXYZRID>::iterator pt = point_cloud.points.begin() ; pt < point_cloud.points.end(); pt++){
+		if(std::isnan(pt->x)|| std::isnan(pt->y) || std::isnan(pt->z)){
+			continue;
+		}
+		// std::cout<<pt->x<<" "<<pt->y<<" "<<pt->z<<" "<<pt->ring<<std::endl;
 		pt->range = (pt->x * pt->x + pt->y * pt->y + pt->z * pt->z);
 		rings[pt->ring].push_back(&(*pt));
 	}
-
+	std::cout<<"[intensityByRangeDiff] get each ring point"<<std::endl;
+	
 	for(std::vector<std::vector<myPointXYZRID*>>::iterator ring = rings.begin(); ring < rings.end(); ring++){
 		myPointXYZRID* prev, *succ;
 		if (ring->empty())
@@ -166,20 +171,25 @@ pcl::PointCloud<myPointXYZRID> intensityByRangeDiff(pcl::PointCloud<myPointXYZRI
 			(*pt)->intensity = MAX( MAX( prev->range-(*pt)->range, succ->range-(*pt)->range), 0) * 10;
 		}
 	}
+	std::cout<<"[intensityByRangeDiff] before normalizeIntensity"<<std::endl;
+
 	point_cloud = normalizeIntensity(point_cloud, 0.0, 1.0);
+	std::cout<<"[intensityByRangeDiff] after normalizeIntensity"<<std::endl;
 
 	pcl::PointCloud<myPointXYZRID> filtered;
 
 	for(pcl::PointCloud<myPointXYZRID>::iterator pt = point_cloud.points.begin() ; pt < point_cloud.points.end(); pt++)
 	{
+		// std::cout<<" "<<pt->x<<" "<<pt->y<<" "<<pt->z<<" "<<pt->intensity<<std::endl;
 		if(pt->intensity  >  config.intensity_thresh)
 		{
-			if(pt->x >= config.xyz_[0].first && pt->x <= config.xyz_[0].second && pt->y >= config.xyz_[1].first && pt->y <= config.xyz_[1].second && pt->z >= config.xyz_[2].first && pt->z <= config.xyz_[2].second)
+			// if(pt->x >= config.xyz_[0].first && pt->x <= config.xyz_[0].second && pt->y >= config.xyz_[1].first && pt->y <= config.xyz_[1].second && pt->z >= config.xyz_[2].first && pt->z <= config.xyz_[2].second)
 			{
 				filtered.push_back(*pt);
 			}
 		}
 	}
+	std::cout<<"[intensityByRangeDiff] get filtered pointcloud"<<std::endl;
 
 	//pcl::io::savePCDFileASCII ("/home/vishnu/PCDs/filtered.pcd", *(toPointsXYZ(filtered)));
 	return filtered;

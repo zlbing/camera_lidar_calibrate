@@ -42,19 +42,22 @@ void getCorners(cv::Mat img, pcl::PointCloud<pcl::PointXYZ> scan, cv::Mat P, int
 
 	img = edge_mask;
 
-	//cv:imwrite("/home/vishnu/marker.png", edge_mask);
+	// cv:imwrite("/home/zzz/marker.png", edge_mask);
 
 	pcl::PointCloud<pcl::PointXYZ> pc = scan;
 	//scan = Velodyne::Velodyne(filtered_pc);
 
 	cv::Rect frame(0, 0, img.cols, img.rows);
 	
-	//pcl::io::savePCDFileASCII("/home/vishnu/final2.pcd", scan.point_cloud);
+	// pcl::io::savePCDFileASCII("/home/vishnu/final2.pcd", scan.point_cloud);
 	
 	cv::Mat image_edge_laser = project(P, frame, scan, NULL);
+	std::cout<<"[getCorners] image_edge_laser"<<"scan size="<<scan.size()<<std::endl;
+	// <<"\n"<<image_edge_laser<<std::endl;
 	cv::threshold(image_edge_laser, image_edge_laser, 10, 255, 0);
-
-
+	
+	cv::imshow("image_edge_laser", image_edge_laser);
+	cv::waitKey(0);
 	
 
 	cv::Mat combined_rgb_laser;
@@ -65,10 +68,10 @@ void getCorners(cv::Mat img, pcl::PointCloud<pcl::PointXYZ> scan, cv::Mat P, int
 	rgb_laser_channels.push_back(img);
 			 
 	cv::merge(rgb_laser_channels, combined_rgb_laser);
-	/*cv::namedWindow("combined", cv::WINDOW_NORMAL); 
-	cv::imshow("combined", combined_rgb_laser);
-	cv::waitKey(5);
-	*/
+	// cv::namedWindow("combined", cv::WINDOW_NORMAL); 
+	// cv::imshow("combined", combined_rgb_laser);
+	// cv::waitKey(5);
+	
 
 	std::map<std::pair<int, int>, std::vector<float> > c2D_to_3D;
 	std::vector<float> point_3D;
@@ -96,10 +99,11 @@ void getCorners(cv::Mat img, pcl::PointCloud<pcl::PointXYZ> scan, cv::Mat P, int
 	}
 
 	/* print the correspondences */
-	/*for(std::map<std::pair<int, int>, std::vector<float> >::iterator it=c2D_to_3D.begin(); it!=c2D_to_3D.end(); ++it)
+	std::cout<<"[getCorners] print the correspondences"<<std::endl;
+	for(std::map<std::pair<int, int>, std::vector<float> >::iterator it=c2D_to_3D.begin(); it!=c2D_to_3D.end(); ++it)
 	{
 		std::cout << it->first.first << "," << it->first.second << " --> " << it->second[0] << "," <<it->second[1] << "," <<it->second[2] << "\n";
-	}*/
+	}
 
 	/* get region of interest */
 
@@ -140,16 +144,17 @@ void getCorners(cv::Mat img, pcl::PointCloud<pcl::PointXYZ> scan, cv::Mat P, int
 				{
 					
 						cv::setMouseCallback("cloud", onMouse, &_point_);
-						
+						std::cout<<"[getCorners] mouse get out"<<std::endl;
 						cv::imshow("cloud", image_edge_laser);
 						cv::waitKey(0);
 						++collected;
-						//std::cout << _point_.x << " " << _point_.y << "\n";
+						std::cout <<"[getCorners] mouse stelected point="<< _point_.x << " " << _point_.y << "\n";
 						polygon.push_back(_point_);
+						std::cout<<"[getCorners] polygon size="<<polygon.size()<<std::endl;
 				}
 				stored_corners.push_back(polygon);
 			}
-			
+			std::cout<<"[getCorners] stored_corners="<<stored_corners.size()<<std::endl;
 			polygon = stored_corners[4*q+i];
 
 			cv::Mat polygon_image = cv::Mat::zeros(image_edge_laser.size(), CV_8UC1);

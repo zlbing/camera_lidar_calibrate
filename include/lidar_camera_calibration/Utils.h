@@ -74,8 +74,13 @@ cv::Mat project(cv::Mat projection_matrix, cv::Rect frame, pcl::PointCloud<pcl::
 
 void onMouse( int event, int x, int y, int f, void* g)
 {
-
 	cv::Point* P = static_cast<cv::Point*>(g);
+	if(event == CV_EVENT_LBUTTONDOWN){
+		std::cout <<"[onMouse] CV_EVENT_LBUTTONDOWN"<< x << " " << y << "\n";
+	}
+	if(event == CV_EVENT_LBUTTONUP){
+		std::cout <<"[onMouse] CV_EVENT_LBUTTONUP"<< x << " " << y << "\n";
+	}
 	switch(event)
 	{
 
@@ -88,7 +93,6 @@ void onMouse( int event, int x, int y, int f, void* g)
 	case  CV_EVENT_LBUTTONUP    :
 									P->x=x;
 									P->y=y;
-									//std::cout << P->x << " " << P->y << "\n";
 									break;
 
 	default                     :   break;
