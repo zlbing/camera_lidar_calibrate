@@ -52,14 +52,13 @@ void getCorners(cv::Mat img, pcl::PointCloud<pcl::PointXYZ> scan, cv::Mat P, int
 	// pcl::io::savePCDFileASCII("/home/vishnu/final2.pcd", scan.point_cloud);
 	
 	cv::Mat image_edge_laser = project(P, frame, scan, NULL);
-	std::cout<<"[getCorners] image_edge_laser"<<"scan size="<<scan.size()<<std::endl;
+	std::cout<<"[getCorners] image_edge_laser"<<" scan size="<<scan.size()<<std::endl;
 	// <<"\n"<<image_edge_laser<<std::endl;
 	cv::threshold(image_edge_laser, image_edge_laser, 10, 255, 0);
 	
-	cv::imshow("image_edge_laser", image_edge_laser);
-	cv::waitKey(0);
+	// cv::imshow("image_edge_laser", image_edge_laser);
+	// cv::waitKey(0);
 	
-
 	cv::Mat combined_rgb_laser;
 	std::vector<cv::Mat> rgb_laser_channels;
 

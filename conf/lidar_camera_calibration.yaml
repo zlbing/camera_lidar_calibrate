@@ -1,5 +1,5 @@
 ﻿lidar_camera_calibration:
-  camera_frame_topic: /frontNear/left/image_raw
-  camera_info_topic: /frontNear/left/camera_info
-  velodyne_topic: /rslidar_points_origin
+  camera_frame_topic: /mono/image_rect
+  camera_info_topic: /mono/image_raw/camera_info
+  velodyne_topic: /velodyne_points
 
