@@ -7,7 +7,7 @@
 <node pkg="tf2_ros" type="static_transform_publisher" respawn="true" name="rslidar_baselink_tf" args="0.44 0 1.33 0.01 0.17 0.025  base_link rslidar " />
 -->
  
-<node pkg="tf2_ros" type="static_transform_publisher" respawn="true" name="rslidar_camera_tf" args="1 0 0 0 -1.57 1.57 horizontal_vlp16_link camera_link" />
+<node pkg="tf2_ros" type="static_transform_publisher" respawn="true" name="rslidar_camera_tf" args="-0.013 -0.072 -0.12 1.92506 -1.55533 -0.361773 camera_link horizontal_vlp16_link" />
 
 </launch>
 

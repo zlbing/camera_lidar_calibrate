@@ -32,7 +32,7 @@
 
     <param name="calibration_file" type="string" value="$(find aruco_mapping)/data/zed_left_uurmi.ini" /> 
     <param name="num_of_markers" type="int" value="2" />
-    <param name="marker_size" type="double" value="0.5"/>
+    <param name="marker_size" type="double" value="0.404"/>
     <param name="space_type" type="string" value="plane" />
     <param name="roi_allowed" type="bool" value="false" />
     <!--

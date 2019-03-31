@@ -99,7 +99,8 @@ void getCorners(cv::Mat img, pcl::PointCloud<pcl::PointXYZ> scan, cv::Mat P, int
 
 	/* print the correspondences */
 	std::cout<<"[getCorners] print the correspondences"<<std::endl;
-	for(std::map<std::pair<int, int>, std::vector<float> >::iterator it=c2D_to_3D.begin(); it!=c2D_to_3D.end(); ++it)
+  typedef std::map<std::pair<int, int>, std::vector<float> >::iterator map_iter;
+	for(map_iter it=c2D_to_3D.begin(); it!=c2D_to_3D.end(); ++it)
 	{
 		std::cout << it->first.first << "," << it->first.second << " --> " << it->second[0] << "," <<it->second[1] << "," <<it->second[2] << "\n";
 	}
@@ -173,7 +174,7 @@ void getCorners(cv::Mat img, pcl::PointCloud<pcl::PointXYZ> scan, cv::Mat P, int
 			pcl::PointCloud<pcl::PointXYZ>::Ptr cloud (new pcl::PointCloud<pcl::PointXYZ>);
 			pcl::PointCloud<pcl::PointXYZ>::Ptr final (new pcl::PointCloud<pcl::PointXYZ>);
 
-			for(std::map<std::pair<int, int>, std::vector<float> >::iterator it=c2D_to_3D.begin(); it!=c2D_to_3D.end(); ++it)
+			for(map_iter it=c2D_to_3D.begin(); it!=c2D_to_3D.end(); ++it)
 			{
 			
 				if (cv::pointPolygonTest(cv::Mat(polygon), cv::Point(it->first.first, it->first.second), true) > 0)

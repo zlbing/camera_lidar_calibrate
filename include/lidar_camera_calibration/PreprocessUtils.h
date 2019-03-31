@@ -183,7 +183,7 @@ pcl::PointCloud<myPointXYZRID> intensityByRangeDiff(pcl::PointCloud<myPointXYZRI
 		// std::cout<<" "<<pt->x<<" "<<pt->y<<" "<<pt->z<<" "<<pt->intensity<<std::endl;
 		if(pt->intensity  >  config.intensity_thresh)
 		{
-			// if(pt->x >= config.xyz_[0].first && pt->x <= config.xyz_[0].second && pt->y >= config.xyz_[1].first && pt->y <= config.xyz_[1].second && pt->z >= config.xyz_[2].first && pt->z <= config.xyz_[2].second)
+            if(pt->x >= config.xyz_[0].first && pt->x <= config.xyz_[0].second && pt->y >= config.xyz_[1].first && pt->y <= config.xyz_[1].second && pt->z >= config.xyz_[2].first && pt->z <= config.xyz_[2].second)
 			{
 				filtered.push_back(*pt);
 			}
