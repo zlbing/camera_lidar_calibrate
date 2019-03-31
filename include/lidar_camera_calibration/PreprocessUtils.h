@@ -151,8 +151,8 @@ pcl::PointCloud<myPointXYZRID> intensityByRangeDiff(pcl::PointCloud<myPointXYZRI
 		rings[pt->ring].push_back(&(*pt));
 	}
 	std::cout<<"[intensityByRangeDiff] get each ring point"<<std::endl;
-	
-	for(std::vector<std::vector<myPointXYZRID*>>::iterator ring = rings.begin(); ring < rings.end(); ring++){
+	typedef std::vector<std::vector<myPointXYZRID*>>::iterator iter;
+	for(iter ring = rings.begin(); ring < rings.end(); ring++){
 		myPointXYZRID* prev, *succ;
 		if (ring->empty())
 		{
@@ -183,7 +183,7 @@ pcl::PointCloud<myPointXYZRID> intensityByRangeDiff(pcl::PointCloud<myPointXYZRI
 		// std::cout<<" "<<pt->x<<" "<<pt->y<<" "<<pt->z<<" "<<pt->intensity<<std::endl;
 		if(pt->intensity  >  config.intensity_thresh)
 		{
-			// if(pt->x >= config.xyz_[0].first && pt->x <= config.xyz_[0].second && pt->y >= config.xyz_[1].first && pt->y <= config.xyz_[1].second && pt->z >= config.xyz_[2].first && pt->z <= config.xyz_[2].second)
+			if(pt->x >= config.xyz_[0].first && pt->x <= config.xyz_[0].second && pt->y >= config.xyz_[1].first && pt->y <= config.xyz_[1].second && pt->z >= config.xyz_[2].first && pt->z <= config.xyz_[2].second)
 			{
 				filtered.push_back(*pt);
 			}
