@@ -35,23 +35,23 @@ int main(int argc, char **argv)
   ros::NodeHandle nh;
   // Image node and subscribcer
   image_transport::ImageTransport it(nh);
-  image_transport::Subscriber img_sub = it.subscribe("/mono/image_raw", 1, &imageCallback);
+  image_transport::Subscriber img_sub = it.subscribe("/webcam/image_raw", 1, &imageCallback);
   pub_img = it.advertise("/image_correct", 10);
   pub_info_camera = nh.advertise<sensor_msgs::CameraInfo>("/camera_info", 1); //
   lcam->height = 480;
   lcam->width = 640;
   lcam->distortion_model = "plumb_bob";
   std::vector<double> distortion;
-  distortion.push_back(-0.1483892818983464);
-  distortion.push_back(0.09120391184674445);
-  distortion.push_back(0.0003542827179418845);
-  distortion.push_back(0.0004809460267004526);
+  distortion.push_back(0.029251);
+  distortion.push_back(-0.169672);
+  distortion.push_back(0.000825);
+  distortion.push_back(0.004710);
   distortion.push_back(0);
    // {0.134304, -0.241875, 0.001620, -0.011621, 0.000000};
   lcam->D = distortion;
-  lcam->K = {683.7044415314717, 0.000000, 358.0818941421198, 0.000000, 681.6552476039036, 218.8191816008914, 0.000000, 0.000000, 1.000000};
+  lcam->K = {599.425037, 0.000000, 331.926573, 0.000000, 597.969408, 228.704189, 0.000000, 0.000000, 1.000000};
   lcam->R = {1.000000, 0.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 0.000000, 1.000000};
-  lcam->P = {683.7044415314717, 0.000000, 358.0818941421198, 0.000000, 0.000000, 681.6552476039036, 218.8191816008914, 0.000000, 0.000000, 0.000000, 1.000000, 0.000000};
+  lcam->P = {595.430298, 0.000000, 334.968617, 0.000000, 0.000000, 598.599609, 228.841538, 0.000000, 0.000000, 0.000000, 1.000000, 0.000000};
   ros::spin();
   return 0;
 }

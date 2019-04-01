@@ -28,22 +28,17 @@
  </node>  -->
   <!-- ArUco mapping -->
   <node pkg="aruco_mapping" type="aruco_mapping" name="aruco_mapping" output="screen">
-    <remap from="/image_raw" to="/mono/image_raw"/>
+    <remap from="/image_raw" to="/webcam/image_raw"/>
 
-    <param name="calibration_file" type="string" value="$(find aruco_mapping)/data/zed_left_uurmi.ini" /> 
+    <param name="calibration_file" type="string" value="$(find aruco_mapping)/data/zed_left_uurmi.ini" />
     <param name="num_of_markers" type="int" value="2" />
-    <param name="marker_size" type="double" value="0.404"/>
+    <param name="marker_size" type="double" value="0.277"/>
     <param name="space_type" type="string" value="plane" />
     <param name="roi_allowed" type="bool" value="false" />
-    <!--
-    <param name="roi_x" type="int" value="0" /> 
-    <param name="roi_y" type="int" value="0" />
-    <param name="roi_width" type="int" value="640" /> 
-    <param name="roi_height" type="int" value="480" /> 
-    -->
 
-  </node>  
-  
 
-  
+  </node>
+
+
+
 </launch>

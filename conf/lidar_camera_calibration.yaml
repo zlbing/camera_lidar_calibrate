@@ -1,5 +1,4 @@
 ﻿lidar_camera_calibration:
-  camera_frame_topic: /mono/image_rect
-  camera_info_topic: /mono/image_raw/camera_info
+  camera_frame_topic: /webcam/image_raw
+  camera_info_topic: /webcam/camera_info
   velodyne_topic: /velodyne_points
-
