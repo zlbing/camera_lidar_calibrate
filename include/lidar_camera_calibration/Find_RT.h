@@ -86,7 +86,7 @@ Matrix4d calc_RT(MatrixXd lidar, MatrixXd camera, int MAX_ITERS, Eigen::Matrix3d
 	}
 	int num_points = lidar.cols();
 	std::cout << "Number of points: " << num_points << std::endl;
-	Vector3d cvb, mu_camera;
+	Vector3d mu_lidar, mu_camera;
 	
 	mu_lidar << 0.0, 0.0, 0.0;
 	mu_camera << 0.0, 0.0, 0.0;
@@ -215,8 +215,8 @@ Matrix4d calc_RT(MatrixXd lidar, MatrixXd camera, int MAX_ITERS, Eigen::Matrix3d
 		T.setIdentity(4,4);
 		T.topLeftCorner(3, 3) = rotation_avg;
 		T.col(3).head(3) = translation_sum/iteration_counter;
-		std::cout << "Average translation is: \n" << T.col(3).head(3).transpose() << "\n";
-		std::cout << "Final rotation is:" << "\n" << final_rotation << "\n";
+		std::cout << "Average transformation is: \n" << T << "\n";
+		std::cout << "Final translation is:" << "\n" << T.col(3).head(3).transpose() << "\n";
 		std::cout << "Final rotation is:" << "\n" << final_rotation << "\n";
 		std::cout << "Final ypr is:" << "\n" <<final_angles << "\n";
 
