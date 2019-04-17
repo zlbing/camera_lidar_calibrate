@@ -7,13 +7,13 @@
 <node pkg="tf2_ros" type="static_transform_publisher" respawn="true" name="rslidar_baselink_tf" args="0.44 0 1.33 0.01 0.17 0.025  base_link rslidar " />
 -->
  
- <!--<node name="republish_img" type="republish" pkg="image_transport" output="screen" args="compressed in:=/rgb_image_hd  raw out:=/rgb_image_hd" />-->
+ <node name="republish_img" type="republish" pkg="image_transport" output="screen" args="compressed in:=/rgb_image_hd  raw out:=/rgb_image_hd" />
 
-<!--<node pkg="aruco_mapping" type="image_process" respawn="true" name="image_process">-->
-    <!--<param name="calibration_file" type="string" value="$(find aruco_mapping)/data/zed_left_uurmi.ini" />-->
-    <!--<param name="flip" type="bool" value="true" />-->
+<node pkg="aruco_mapping" type="image_process" respawn="true" name="image_process">
+    <param name="calibration_file" type="string" value="$(find aruco_mapping)/data/zed_left_uurmi.ini" />
+    <param name="flip" type="bool" value="true" />
 
-<!--</node>-->
+</node>
         <!--
         <node pkg="tf2_ros" type="static_transform_publisher" respawn="true" name="rslidar_camera_tf" args="-0.0200814 -0.630878 -0.414122 1.58531 -1.09874 -0.0182513 camera_link rslidar" />
         -->
@@ -21,7 +21,7 @@
 <!--<node pkg="tf2_ros" type="static_transform_publisher" respawn="true" name="rslidar_camera_tf"-->
       <!--args="0.661394 -0.018225 -0.364528 1.56518  3.1379  2.0552 rslidar camera_link " />-->
 
-    <node pkg="tf2_ros" type="static_transform_publisher" respawn="true" name="rslidar_camera_tf"
-          args="0.663716 -0.0205447  -0.358329 1.56129 3.13664  2.0599 rslidar camera_link " />
+    <!--<node pkg="tf2_ros" type="static_transform_publisher" respawn="true" name="rslidar_camera_tf"-->
+          <!--args="0.663716 -0.0205447  -0.358329 1.56129 3.13664  2.0599 rslidar camera_link " />-->
 </launch>
 

@@ -213,13 +213,17 @@ Matrix4d calc_RT(MatrixXd lidar, MatrixXd camera, int MAX_ITERS, Eigen::Matrix3d
 
 		Matrix4d T;
 		T.setIdentity(4,4);
-		T.topLeftCorner(3, 3) = rotation_avg;
+		T.topLeftCorner(3, 3) = final_rotation;
 		T.col(3).head(3) = translation_sum/iteration_counter;
-		std::cout << "Average transformation is: \n" << T << "\n";
-		std::cout << "Final translation is:" << "\n" << T.col(3).head(3).transpose() << "\n";
-		std::cout << "Final rotation is:" << "\n" << final_rotation << "\n";
-		std::cout << "Final ypr is:" << "\n" <<final_angles << "\n";
+		std::cout << "Average Lidar to Camera transformation is: \n" << T << "\n";
+		std::cout << "Final Lidar to Camera translation is:" << "\n" << T.col(3).head(3).transpose() << "\n";
+		std::cout << "Final Lidar to Camera rotation is:" << "\n" << final_rotation << "\n";
+		std::cout << "Final ypr is:" << "\n" <<final_angles.transpose() << "\n";
 
+		Matrix4d T_lidar_camera = T.inverse();
+		Eigen::Vector3d ypr_lidar_camera = T_lidar_camera.block<3,3>(0,0).eulerAngles(2, 1, 0);
+		std::cout << "Final Camera to Lidar translation is:" << "\n" << T_lidar_camera.col(3).head(3).transpose() << "\n";
+		std::cout << "Final Camera to Lidar ypr is:" << "\n" << ypr_lidar_camera.transpose() << "\n";
 		std::cout << "Average RMSE is: " <<  rmse_avg*1.0/iteration_counter << "\n";
 
 		MatrixXd eltwise_error_temp = (camera - ((rotation_avg*lidar).colwise() + (translation_sum/iteration_counter))).array().square().colwise().sum();
@@ -372,9 +376,10 @@ void readArucoPose(std::vector<float> marker_info, int num_of_marker_in_config)
 }
 
 
-void find_transformation(std::vector<float> marker_info, int num_of_marker_in_config, int MAX_ITERS, Eigen::Matrix3d lidarToCamera)
+Matrix4d find_transformation(std::vector<float> marker_info, int num_of_marker_in_config, int MAX_ITERS, Eigen::Matrix3d lidarToCamera)
 {
 	readArucoPose(marker_info, num_of_marker_in_config);
 	std::pair<MatrixXd, MatrixXd> point_clouds = readArray();
 	Matrix4d T = calc_RT(point_clouds.first, point_clouds.second, MAX_ITERS, lidarToCamera);
+	return T;
 }

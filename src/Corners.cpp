@@ -22,11 +22,18 @@
 #include <pcl/sample_consensus/sac_model_line.h>
 #include <pcl/common/intersections.h>
 
-
 #include "lidar_camera_calibration/Utils.h"
+
 
 int iteration_count = 0;
 std::vector< std::vector<cv::Point> > stored_corners;
+
+void cvshowProjectPoints(cv::Mat img, pcl::PointCloud<pcl::PointXYZ> scan, cv::Mat P){
+	cv::Rect frame(0, 0, img.cols, img.rows);
+	cv::Mat image_edge_laser = project(P, frame, scan, NULL);
+	cv::imshow("image_edge_laser", image_edge_laser);
+	cv::waitKey(0);
+}
 
 void getCorners(cv::Mat img, pcl::PointCloud<pcl::PointXYZ> scan, cv::Mat P, int num_of_markers, int MAX_ITERS)
 {
