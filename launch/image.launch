@@ -12,7 +12,6 @@
 <node pkg="aruco_mapping" type="image_process" respawn="true" name="image_process">
     <param name="calibration_file" type="string" value="$(find aruco_mapping)/data/zed_left_uurmi.ini" />
     <param name="flip" type="bool" value="true" />
-
 </node>
         <!--
         <node pkg="tf2_ros" type="static_transform_publisher" respawn="true" name="rslidar_camera_tf" args="-0.0200814 -0.630878 -0.414122 1.58531 -1.09874 -0.0182513 camera_link rslidar" />

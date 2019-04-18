@@ -14,14 +14,13 @@
     <!--<param name="flip" type="bool" value="true" />-->
 
 <!--</node>-->
-        <!--
-        <node pkg="tf2_ros" type="static_transform_publisher" respawn="true" name="rslidar_camera_tf" args="-0.0200814 -0.630878 -0.414122 1.58531 -1.09874 -0.0182513 camera_link rslidar" />
-        -->
 
-<!--<node pkg="tf2_ros" type="static_transform_publisher" respawn="true" name="rslidar_camera_tf"-->
-      <!--args="0.661394 -0.018225 -0.364528 1.56518  3.1379  2.0552 rslidar camera_link " />-->
-
+    <!--gaussian1547-->
     <node pkg="tf2_ros" type="static_transform_publisher" respawn="true" name="rslidar_camera_tf"
-          args="0.663716 -0.0205447  -0.358329 1.56129 3.13664  2.0599 rslidar camera_link " />
+          args="0.662154 -0.021933 -0.372927 1.56345 3.13563 2.05366 rslidar camera_link " />
+
+  <!--gaussian1098-->
+  <!--<node pkg="tf2_ros" type="static_transform_publisher" respawn="true" name="rslidar_camera_tf"-->
+        <!--args="0.801422  0.071846 -0.257728 1.60373 3.09503 1.86663 rslidar camera_link " />-->
 </launch>
 

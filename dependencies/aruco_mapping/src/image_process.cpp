@@ -52,7 +52,7 @@ int main(int argc, char **argv)
   image_transport::ImageTransport it(nh);
   image_transport::Subscriber img_sub = it.subscribe("/rgb_image_hd", 1, &imageCallback);
   pub_img = it.advertise("/image_correct", 10);
-  pub_rect_img = it.advertise("/image_rectity", 10);
+  pub_rect_img = it.advertise("/image_rectify", 10);
   pub_info_camera = nh.advertise<sensor_msgs::CameraInfo>("/camera_info", 1); //
   p_nh.getParam("calibration_file", calib_filename_);
   std::cout<<"calib_filename_="<<calib_filename_<<std::endl;

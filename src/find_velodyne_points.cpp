@@ -56,6 +56,8 @@ Eigen::Quaterniond qlidarToCamera;
 Eigen::Matrix3d lidarToCamera;
 ros::Publisher pub_filter_points_;
 
+ros::Publisher pub_camera_corner_,pub_lidar_corner_;
+
 geometry_msgs::TransformStamped transformStamped;
 
 cv::Point cvproject(const pcl::PointXYZ &pt, const cv::Mat &projection_matrix)
@@ -161,16 +163,6 @@ void callback_noCam(const sensor_msgs::ImageConstPtr &original_image,
 	cv::Mat temp_mat(config.s, CV_8UC3);
 	pcl::PointCloud<pcl::PointXYZ> retval = *(toPointsXYZ(point_cloud));
 
-	sensor_msgs::PointCloud2 output;
-	pcl::toROSMsg(retval,output);
-	output.header = msg_pc->header;
-	output.header.frame_id = "camera_link";
-	for(int i=0; i<10; i++){
-		pub_filter_points_.publish(output);
-		usleep(500);
-	}
-
-
 	std::vector<float> marker_info;
 	std::cout<<"[callback_noCam] get marker_info"<<std::endl;
 	for(std::vector<float>::const_iterator it = msg_rt->dof.data.begin(); it != msg_rt->dof.data.end(); ++it)
@@ -183,7 +175,7 @@ void callback_noCam(const sensor_msgs::ImageConstPtr &original_image,
 
 	getCorners(temp_mat, retval, config.P, config.num_of_markers, config.MAX_ITERS);
 	Matrix4d T_lidar_to_camera = find_transformation(marker_info, config.num_of_markers, config.MAX_ITERS, lidarToCamera);
-
+	Matrix4d T_camera_to_lidar = T_lidar_to_camera.inverse();
 	cv::namedWindow("prject_points", cv::WINDOW_NORMAL);
 //	pcl::transformPointCloud(point_cloud_xyz, point_cloud_xyz, transform.inverse());
 	pcl::transformPointCloud(point_cloud_xyz, point_cloud_xyz, T_lidar_to_camera);
@@ -218,15 +210,35 @@ void callback_noCam(const sensor_msgs::ImageConstPtr &original_image,
 		}
 	}
 
+	pcl::transformPointCloud(retval, poing_edge, transform.inverse());
+	sensor_msgs::PointCloud2 output;
+	pcl::toROSMsg(poing_edge,output);
+	output.header = msg_pc->header;
+	output.header.frame_id = "rslidar";
+	for(int i=0; i<10; i++){
+		pub_filter_points_.publish(output);
+		usleep(500);
+	}
+
 	std::pair<MatrixXd, MatrixXd> point_clouds = readArray();
 	//投影camera corner 点云
+	pcl::PointCloud<pcl::PointXYZ> point_camera;
 	for(int i=0; i<point_clouds.first.cols(); i++){
 		pcl::PointXYZ c(point_clouds.second(0,i),
 						point_clouds.second(1,i),
 						point_clouds.second(2,i));
+		point_camera.push_back(c);
 		cv::Point c_point = cvproject(c,config.P);
 		cv::circle(image,c_point,2,cv::Scalar(255,0,0),2);
 	}
+
+	pcl::transformPointCloud(point_camera, point_camera, T_camera_to_lidar);
+	pcl::transformPointCloud(point_camera, point_camera, transform.inverse());
+	sensor_msgs::PointCloud2 output_camera_corner;
+	pcl::toROSMsg(point_camera,output_camera_corner);
+	output_camera_corner.header = msg_pc->header;
+	output_camera_corner.header.frame_id = "rslidar";
+
 
 	//投影lidar corner 点云
 	pcl::PointCloud<pcl::PointXYZ> point_cloud_corner;
@@ -244,8 +256,17 @@ void callback_noCam(const sensor_msgs::ImageConstPtr &original_image,
 		cv::circle(image,l_point,2,cv::Scalar(0,0,255),2);
 	}
 
+	pcl::transformPointCloud(point_cloud_corner, point_cloud_corner, T_camera_to_lidar);
+	pcl::transformPointCloud(point_cloud_corner, point_cloud_corner, transform.inverse());
+	sensor_msgs::PointCloud2 output_lidar_corner;
+	pcl::toROSMsg(point_cloud_corner,output_lidar_corner);
+	output_lidar_corner.header = msg_pc->header;
+	output_lidar_corner.header.frame_id = "rslidar";
+
 	cv::imshow("prject_points",image);
 	cv::waitKey(0);
+	pub_camera_corner_.publish(output_camera_corner);
+	pub_lidar_corner_.publish(output_lidar_corner);
 	//ros::shutdown();
 }
 
@@ -314,6 +335,8 @@ int main(int argc, char** argv)
 	ros::NodeHandle n;
 
 	pub_filter_points_ =  n.advertise<sensor_msgs::PointCloud2>("filter_points",10);
+	pub_camera_corner_ =  n.advertise<sensor_msgs::PointCloud2>("camera_corner",10);
+	pub_lidar_corner_ =  n.advertise<sensor_msgs::PointCloud2>("lidar_corner",10);
 	if(config.useCameraInfo)
 	{
 		ROS_INFO_STREAM("Reading CameraInfo from topic");

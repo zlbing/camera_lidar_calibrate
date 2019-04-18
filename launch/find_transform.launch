@@ -18,7 +18,7 @@
 
   <rosparam command="load" file="$(find lidar_camera_calibration)/conf/lidar_camera_calibration.yaml" />
   <node pkg="lidar_camera_calibration" type="find_transform" name="find_transform" output="screen" >
-    <remap from="/image_raw" to="/image_rectity"/>
+    <remap from="/image_raw" to="/image_rectify"/>
   </node>
 </launch>
 

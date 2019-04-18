@@ -11,6 +11,9 @@
 #include <Eigen/SVD>
 #include <Eigen/Geometry>
 #include <unsupported/Eigen/MatrixFunctions>
+#include <tf2_ros/static_transform_broadcaster.h>
+#include <tf2_ros/transform_broadcaster.h>
+
 using namespace Eigen;
 
 std::string pkg_loc = ros::package::getPath("lidar_camera_calibration");
@@ -231,6 +234,22 @@ Matrix4d calc_RT(MatrixXd lidar, MatrixXd camera, int MAX_ITERS, Eigen::Matrix3d
 		
 		std::cout << "RMSE on average transformation is: " << error_temp << std::endl;
 		log_avg_values << std::fixed << std::setprecision(8) << error_temp << "\n";
+//		{
+//			tf2_ros::TransformBroadcaster br;
+//			geometry_msgs::TransformStamped transformStamped;
+//			transformStamped.header.frame_id = "rslidar";
+//			transformStamped.child_frame_id = "camera_link";
+//			transformStamped.transform.translation.x = T_lidar_camera(0,3);
+//			transformStamped.transform.translation.y = T_lidar_camera(1,3);
+//			transformStamped.transform.translation.z = T_lidar_camera(2,3);
+//			tf2::Quaternion q;
+//			q.setRPY(ypr_lidar_camera(2), ypr_lidar_camera(1), ypr_lidar_camera(0));
+//			transformStamped.transform.rotation.x = q.x();
+//			transformStamped.transform.rotation.y = q.y();
+//			transformStamped.transform.rotation.z = q.z();
+//			transformStamped.transform.rotation.w = q.w();
+//			br.sendTransform(transformStamped);
+//		}
 
  	}
 
