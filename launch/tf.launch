@@ -16,9 +16,11 @@
 <!--</node>-->
 
     <!--gaussian1547-->
-    <node pkg="tf2_ros" type="static_transform_publisher" respawn="true" name="rslidar_camera_tf"
-          args="0.662154 -0.021933 -0.372927 1.56345 3.13563 2.05366 rslidar camera_link " />
+    <!--<node pkg="tf2_ros" type="static_transform_publisher" respawn="true" name="rslidar_camera_tf"-->
+          <!--args="0.662154 -0.021933 -0.372927 1.56345 3.13563 2.05366 rslidar camera_link " />-->
 
+  <node pkg="tf2_ros" type="static_transform_publisher" respawn="true" name="rslidar_camera_tf"
+        args="0.661182 -0.0226075  -0.371841 1.56325 3.13489 2.05027 rslidar camera_link " />
   <!--gaussian1098-->
   <!--<node pkg="tf2_ros" type="static_transform_publisher" respawn="true" name="rslidar_camera_tf"-->
         <!--args="0.801422  0.071846 -0.257728 1.60373 3.09503 1.86663 rslidar camera_link " />-->

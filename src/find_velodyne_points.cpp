@@ -264,7 +264,7 @@ void callback_noCam(const sensor_msgs::ImageConstPtr &original_image,
 	output_lidar_corner.header.frame_id = "rslidar";
 
 	cv::imshow("prject_points",image);
-	cv::waitKey(0);
+	cv::waitKey(2);
 	pub_camera_corner_.publish(output_camera_corner);
 	pub_lidar_corner_.publish(output_lidar_corner);
 	//ros::shutdown();
