@@ -38,17 +38,8 @@ link_directories(${PCL_LIBRARY_DIRS})
 add_definitions(${PCL_DEFINITIONS}) 
 
 find_package(Eigen3  REQUIRED)
-include_directories(
-  ${EIGEN3_INCLUDE_DIR}
-)
 
-include_directories(include ${catkin_INCLUDE_DIRS})
-
-add_executable(find_transform src/find_velodyne_points.cpp src/Corners.cpp) 
-target_link_libraries(find_transform ${PCL_LIBRARIES}) 
-target_link_libraries(find_transform ${catkin_LIBRARIES})
-
-
+include_directories(${catkin_INCLUDE_DIRS})
 add_executable(image_laser_process src/image_laser_process.cpp)
 target_link_libraries(image_laser_process ${OpenCV_LIBS} ${ROS_LIBRARIES} ${catkin_LIBRARIES} ${PCL_LIBRARIES})
 
@@ -58,6 +49,7 @@ include_directories(src/Config.h
         src/fusion_lidar_camera.h
         src/compute_rt.h
         ${CERES_INCLUDE_DIRS})
+
 add_executable(gs_calibrate src/main.cc
         src/Config.cc
         src/fusion_lidar_camera.cc
