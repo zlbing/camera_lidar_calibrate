@@ -104,16 +104,18 @@ namespace GS{
     std::cout << "\n";
     std::cout<<"[callback_noCam] marker_info size="<<marker_info.size()<<std::endl;
 
-    Eigen::Matrix4d T_lidar_to_camera = compute_rt_.find_transformation(marker_info, config_.conf_data_.num_of_markers,
-                                                     config_.conf_data_.MAX_ITERS, lidarToCamera);
+//    Eigen::Matrix4d T_lidar_to_camera = compute_rt_.find_transformation(marker_info, config_.conf_data_.num_of_markers,
+//                                                     config_.conf_data_.MAX_ITERS, lidarToCamera);
 
-    std::pair<Eigen::MatrixXd, Eigen::MatrixXd> point_clouds = compute_rt_.readArray();
+
 
     Eigen::Matrix4d T_lidar_to_camera_ceres = compute_rt_.findTByCeres(marker_info,
                                                                        line_points,
                                                                        config_.conf_data_.num_of_markers,
                                                                        config_.conf_data_.MAX_ITERS,
                                                                        lidarToCamera);
+
+    std::pair<Eigen::MatrixXd, Eigen::MatrixXd> point_clouds = compute_rt_.readArray();
 
     {
       pcl::PointCloud<pcl::PointXYZ> poing_edge;
@@ -414,10 +416,10 @@ namespace GS{
     outfile.close();
 
     iteration_count++;
-    if(iteration_count == MAX_ITERS)
-    {
-      ros::shutdown();
-    }
+//    if(iteration_count == MAX_ITERS)
+//    {
+//      ros::shutdown();
+//    }
     return line_points;
   }
 }
